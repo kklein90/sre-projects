@@ -17,3 +17,4 @@ Each project has its' own README.
 
 - An established AWS account is required.
 - Permissions to deploy the included resources.
+- A Github user account with access key, stored in an AWS SSM parameter (secureString) & named **github-key**

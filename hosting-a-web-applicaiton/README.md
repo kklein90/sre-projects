@@ -44,7 +44,7 @@ This Terraform & Ansible deploy a basic Wordpress site & MySql server. As mentio
 
 #### Terraform
 
-This TF code requires VPC resources already exist. The following are deploy:
+This TF code requires VPC resources already exist. The following resources are deployed:
 
 - 2 EC2 instances
 - IAM role & instance profile to grant permissions to the instances
