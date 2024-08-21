@@ -1,0 +1,36 @@
+name: WP Dev pipeline
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - dev
+
+jobs:
+  runtests:
+    steps:
+      - uses: actions/checkout@v4
+      - name: RunTests
+        run: |
+          export tag=`git describe --exact-match --tags $(git log -n1 --pretty='%h')`
+          echo "Running on checked out tag: $tag"
+          echo "tag=${tag}" >> "$GITHUB_ENV"
+
+      - name: SecretsCheck
+        run: grep -qRP '(?<![A-Z0-9])AKIA[A-Z0-9]{20}(?![A-Z0-9])' * && echo "AWS Secret Key Found!" && exit 1 || true
+
+  devdeploy:
+    name: DeployWP
+    needs: runtests
+    steps:
+      - name: deploy-tools-web
+        run: |
+          echo "*** setup standard build env variables"
+          export commit=`git log -n 1 --pretty='%h'`
+          export branch=`git rev-parse --abbrev-ref HEAD`
+          export img_tag=$commit
+
+          echo -e "Do some things to modify the deployment package, like, maybe update the docker-compose.yml file"
+
+          echo -e "*** Respawn the container with fresh image:"
+          docker compose up --force-recreate --build -d

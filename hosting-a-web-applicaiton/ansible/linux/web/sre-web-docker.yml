@@ -1,0 +1,39 @@
+---
+- name: Copy docker setup script
+  ansible.builtin.copy:
+    src: files/docker-setup.sh
+    dest: /docker-setup.sh
+    owner: root
+    group: root
+    mode: "0776"
+
+- name: Run setup script
+  ansible.builtin.shell:
+    cmd: /docker-setup.sh
+
+- name: Install Docker
+  ansible.builtin.apt:
+    name:
+      - docker.io
+      - docker-compose-plugin
+    state: present
+
+- name: copy compose file
+  ansible.builtin.copy:
+    src: files/web-docker-compose.yml
+    dest: /docker-compose.yml
+    owner: root
+    group: root
+    mode: "0666"
+
+- name: wait for DB
+  ansible.builtin.wait_for:
+    host: db.sreproject.local
+    port: 3306
+    delay: 10
+
+- name: Run docker compose
+  community.docker.docker_compose_v2:
+    project_src: /
+    state: present
+    recreate: always
