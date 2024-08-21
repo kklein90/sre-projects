@@ -1,4 +1,4 @@
-# SRE Project
+# SRE Project - Hosting a Web Application
 
 ## Synopsis 
 

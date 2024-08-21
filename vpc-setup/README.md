@@ -1,4 +1,4 @@
-# SRE Project
+# SRE Project - VPC Setup
 
 ## Synopsis 
 
