@@ -68,6 +68,7 @@ The web server playbook includes a wait task that will wait for the DB container
 Updating with Ansible:
 
 - cd into ansible/linux/web
+- ensure you have the collection community.docker installed: `ansible-galaxy collection install community.docker`
 - update the hosts file in the playbook folder with the appropriate IP address from the Terraform output
 - make any changes to the host code
 - from your workstation, run ansible `ansible-playbook -i hosts sre-web-base.yml`
